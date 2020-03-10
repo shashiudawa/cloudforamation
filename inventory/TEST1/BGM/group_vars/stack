@@ -1,0 +1,8 @@
+---
+stack_name: puka
+region: us-east-1
+InstanceType: t2.micro
+KeyName: my_keypair
+stack_tag: BGM
+ImageId: ami-0a887e401f7654935
+tag_name: BGM

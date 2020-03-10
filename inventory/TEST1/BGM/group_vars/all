@@ -1,0 +1,16 @@
+---
+#stack_name: puka
+#InstanceType: t2.micro
+#KeyName: my_keypair
+#stack_tag: BGM
+#tag_name: BGM
+ec2_elb:
+  state: present
+  region: 
+    - us-east-1
+loadbalancers:
+  - elb: loadbalancer1
+    instances:
+      - instance1
+      - instance2
+
