@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - "{{ vars_files }}"
+  tasks:
+    - name: "Add each EC2 instance to the ELB"
+      ec2_elb:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        ec2_region: "{{ AWS_REGION }}"
+        state: present
+        ec2_elbs: "{{ item.elb }}"
+        region: "{{ ec2_elb.region }}"
+        instance_id: "{{ item.instance }}"
+     with_items: "{{ loadbalancers }}"
+
+

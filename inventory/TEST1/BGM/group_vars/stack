@@ -1,8 +1,10 @@
 ---
-stack_name: puka
-region: us-east-1
-InstanceType: t2.micro
-KeyName: my_keypair
-stack_tag: BGM
-ImageId: ami-0a887e401f7654935
-tag_name: BGM
+stack:
+  name: TEST1-BGM
+  region: us-east-1
+  tag: TEST1-BGM
+template:
+  InstanceType: t2.micro
+  KeyName: my_keypair
+  ImageId: ami-0a887e401f7654935
+...
