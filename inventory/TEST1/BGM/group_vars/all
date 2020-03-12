@@ -6,10 +6,12 @@ ec2_elb:
 loadbalancers:
   - elb: loadbalancer1
     instance:
-      - bgm-instance-1
-      - bgm-instance-2
+      - bgm-server-1
+      - bgm-server-2
 
-ec2_sanpshot:
-  device_name: /dev/xvda
+ec2_snapshot:
+  device_name: /dev/sdb
+  tag: bgm-server-*
+  patch_cycle: FEB
 ...
 

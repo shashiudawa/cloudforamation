@@ -11,11 +11,16 @@
         stack_name: "{{ stack.name }}"
         state: "present"
         region: "{{ stack.region }}"
-        disable_rollback: true
+        #disable_rollback: true
+        termination_protection: no
         template: "/home/ansible/cloudformation/templates/{{ enviornment }}/{{ service }}/{{ service }}.json"
         template_parameters:
           KeyName: "{{ template.KeyName }}"
           InstanceType: "{{ template.InstanceType }}"
           ImageId: "{{ template.ImageId }}"
+          #SnapshotId: "{{ template.SnapshotId }}"
+         # SnapshotId2: "{{ template.SnapshotId2 }}"
+        #with_items: "{{ SnapshotId }"
         tags:
           Stack: "{{ stack.tag }}"
+      #with_items: "{{ SnapshotIds }}"

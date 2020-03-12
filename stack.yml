@@ -1,0 +1,25 @@
+---
+- hosts: all
+  gather_facts: no
+  vars_files:
+    - "{{ vars_files }}"
+    - "{{ templates_path }}"
+  tasks:
+    - name: delete a stack
+      cloudformation:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        region: "{{ stack.region }}"
+        stack_name: "{{ stack.name }}"
+        state: "absent"
+
+    - name: Create a cloudformation stack
+      cloudformation:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        stack_name: "{{ stack.name }}"
+        state: "present"
+        region: "{{ stack.region }}"
+        disable_rollback: true
+        template: "{{ templates_path }}/{{ environment }}/{{ service }}/{{ service }}.json"
+        template_parameters: "{{ lookup('file', '{{ templates_path }}/{{ environment }}/{{ service }}/{{ service}}_parameters.json') | from_json }}"

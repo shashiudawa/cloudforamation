@@ -1,2 +1,3 @@
 ---
 vars_files: /home/ansible/keys.yml
+templates_path: /home/ansible/cloudformation/templates

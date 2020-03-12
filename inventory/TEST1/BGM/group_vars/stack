@@ -1,10 +1,18 @@
 ---
 stack:
-  name: TEST1-BGM
+  name: BGM-TEST1
   region: us-east-1
-  tag: TEST1-BGM
-template:
-  InstanceType: t2.micro
-  KeyName: my_keypair
-  ImageId: ami-0a887e401f7654935
+  tag: BGM-TEST1
+#template:
+#  InstanceType: t2.micro
+#  KeyName: my_keypair
+#  ImageId: ami-0a887e401f7654935
+#  SnapshotId:
+#    SnapshotId1: "{{ snapshot_map }}"
+#    SnapshotId2: "{{ snapshot_map }}"
+  #  - SnapshotId1: snap-062b34219bec1000
+   # - SnapshotId2: snap-042595b4710234deb 
+  #SnapshotId:
+  #  - Name 
+  #SnapshotId2: 
 ...

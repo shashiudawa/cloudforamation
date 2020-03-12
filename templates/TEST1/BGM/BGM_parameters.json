@@ -1,0 +1,7 @@
+{
+"InstanceType" : "t2.micro",
+"KeyName" : "my_keypair",
+"ImageId" : "ami-0a887e401f7654935",
+"SnapshotId1" : "snap-001051808f6b6b2bd",
+"SnapshotId2" : "snap-086b0d1227e5c9c21"
+}

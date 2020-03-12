@@ -1,0 +1,12 @@
+- hosts: all
+  gather_facts: no
+  vars_files:
+    - "{{ vars_files }}"
+  tasks:
+    - name: delete a stack
+      cloudformation:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        stack_name: BGM-TEST1
+        region: "{{ stack.region }}"
+        state: "absent"
