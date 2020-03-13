@@ -4,6 +4,14 @@
   vars_files:
     - "{{ vars_files }}"
   tasks:
+    - name: delete a stack
+      cloudformation:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        region: "{{ stack.region }}"
+        stack_name: "{{ stack.name }}"
+        state: "absent"
+
     - name: Create a cloudformation stack
       cloudformation:
         aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
@@ -11,16 +19,35 @@
         stack_name: "{{ stack.name }}"
         state: "present"
         region: "{{ stack.region }}"
-        #disable_rollback: true
-        termination_protection: no
-        template: "/home/ansible/cloudformation/templates/{{ enviornment }}/{{ service }}/{{ service }}.json"
-        template_parameters:
-          KeyName: "{{ template.KeyName }}"
-          InstanceType: "{{ template.InstanceType }}"
-          ImageId: "{{ template.ImageId }}"
-          #SnapshotId: "{{ template.SnapshotId }}"
-         # SnapshotId2: "{{ template.SnapshotId2 }}"
-        #with_items: "{{ SnapshotId }"
+        disable_rollback: true
+        template: "{{ templates_path }}/{{ env }}/{{ service }}/{{ service }}.json"
+        template_parameters: "{{ lookup('file', '{{ templates_path }}/{{ env }}/{{ service }}/{{ service}}_parameters.json') | from_json }}"
         tags:
           Stack: "{{ stack.tag }}"
-      #with_items: "{{ SnapshotIds }}"
+
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - "{{ vars_files }}"
+  tasks:
+    - name: Gather new EC2 instances info
+      ec2_instance_info:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        ec2_region: "{{ AWS_REGION }}"
+        filters:
+          tag:Stack: "{{ stack.tag }}"
+      register: ec2_facts
+    - debug:
+        msg: "{{ ec2_facts | json_query('instances[*].{instance: instance_id, Name: tags.Name}') }}"
+
+    - name: Add each EC2 instance to the ELB
+      ec2_elb:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        ec2_region: "{{ AWS_REGION }}"
+        state: present
+        ec2_elbs: "{{ ec2_elb.elb }}"
+        region: "{{ ec2_elb.region }}"
+        instance_id: "{{ item.instance_id }}"
+      with_items: "{{ ec2_facts.instances }}" 

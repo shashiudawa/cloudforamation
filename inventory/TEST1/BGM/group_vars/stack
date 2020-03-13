@@ -7,12 +7,4 @@ stack:
 #  InstanceType: t2.micro
 #  KeyName: my_keypair
 #  ImageId: ami-0a887e401f7654935
-#  SnapshotId:
-#    SnapshotId1: "{{ snapshot_map }}"
-#    SnapshotId2: "{{ snapshot_map }}"
-  #  - SnapshotId1: snap-062b34219bec1000
-   # - SnapshotId2: snap-042595b4710234deb 
-  #SnapshotId:
-  #  - Name 
-  #SnapshotId2: 
 ...

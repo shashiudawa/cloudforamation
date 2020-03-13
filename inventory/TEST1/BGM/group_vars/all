@@ -1,13 +1,8 @@
 ---
 ec2_elb:
   region: 
-    - us-east-1
-
-loadbalancers:
-  - elb: loadbalancer1
-    instance:
-      - bgm-server-1
-      - bgm-server-2
+    - us-east-1a
+  elb: TEST1-BGM-LB
 
 ec2_snapshot:
   device_name: /dev/sdb

@@ -1,0 +1,22 @@
+---
+- hosts: all
+  gather_facts: no
+  vars_files:
+    - "{{ vars_files }}"
+  tasks:
+    - name: Create a cloudformation stack
+      cloudformation:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        stack_name: "{{ stack.name }}"
+        state: "present"
+        region: "{{ stack.region }}"
+        #disable_rollback: true
+        termination_protection: no
+        template: "/home/ansible/cloudformation/templates/TEST1/BGM/initial_BGB.json"
+        template_parameters:
+          KeyName: my_keypair 
+          InstanceType: t2.micro
+          ImageId: ami-0a887e401f7654935
+        tags:
+          Stack: "{{ stack.tag }}"
